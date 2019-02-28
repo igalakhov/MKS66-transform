@@ -12,7 +12,7 @@ void EdgeMatrix::rotateXYZ(float_mat x, float_mat y, float_mat z){
 }
 
 void EdgeMatrix::rotateZ(float_mat z) {
-    TransformationMatrix  * transform = new TransformationMatrix(new float_mat[16]{
+    auto * transform = new TransformationMatrix(new float_mat[16]{
             cos(z), -sin(z), 0, 0,
             sin(z), cos(z), 0, 0,
             0, 0, 1, 0,
@@ -25,7 +25,7 @@ void EdgeMatrix::rotateZ(float_mat z) {
 }
 
 void EdgeMatrix::rotateY(float_mat y) {
-    TransformationMatrix  * transform = new TransformationMatrix(new float_mat[16]{
+    auto * transform = new TransformationMatrix(new float_mat[16]{
             cos(y), 0, sin(y), 0,
             0, 1, 0, 0,
             -sin(y), 0, cos(y), 0,
@@ -38,7 +38,7 @@ void EdgeMatrix::rotateY(float_mat y) {
 }
 
 void EdgeMatrix::rotateX(float_mat x) {
-    TransformationMatrix  * transform = new TransformationMatrix(new float_mat[16]{
+    auto * transform = new TransformationMatrix(new float_mat[16]{
             1, 0, 0, 0,
             0, cos(x), -sin(x), 0,
             0, sin(x), cos(x), 0,
@@ -51,7 +51,7 @@ void EdgeMatrix::rotateX(float_mat x) {
 }
 
 void EdgeMatrix::scale(float_mat x, float_mat y, float_mat z){
-    TransformationMatrix  * transform = new TransformationMatrix(new float_mat[16]{
+    auto * transform = new TransformationMatrix(new float_mat[16]{
             x, 0, 0, 0,
             0, y, 0, 0,
             0, 0, z, 0,
@@ -64,7 +64,7 @@ void EdgeMatrix::scale(float_mat x, float_mat y, float_mat z){
 }
 
 void EdgeMatrix::translate(float_mat x, float_mat y, float_mat z) {
-    TransformationMatrix  * transform = new TransformationMatrix(new float_mat[16]{
+    auto * transform = new TransformationMatrix(new float_mat[16]{
         1, 0, 0, x,
         0, 1, 0, y,
         0, 0, 1, z,
@@ -197,9 +197,9 @@ EdgeMatrix::EdgeMatrix(){
     vals = (float_mat *) std::malloc(0);
 }
 
-// static constrictor thingy
+// static constructor thingy
 EdgeMatrix * EdgeMatrix::from_transformation(TransformationMatrix * t) {
-    EdgeMatrix * ret = new EdgeMatrix();
+    auto * ret = new EdgeMatrix();
 
     float_mat * p = t->get_start();
 

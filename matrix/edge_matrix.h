@@ -6,12 +6,11 @@
 #define WORK_01_LINE_EDGE_MATRIX_H
 
 #include "transformation_matrix.h"
+#include "../settings.h"
 
 #include <iostream>
 #include <thread>
 #include "math.h"
-
-#define float_mat float
 
 class TransformationMatrix;
 class EdgeMatrix {
@@ -27,6 +26,7 @@ public:
     void multiply_recursive(float_mat *, int, int, float_mat *, int);
 
     // transformations
+    // TODO: move transformations into transformation_matrix and only keep apply_transformations here
     void translate(float_mat, float_mat, float_mat);
     void scale(float_mat, float_mat, float_mat);
     void rotateX(float_mat);

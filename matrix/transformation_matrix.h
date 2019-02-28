@@ -6,9 +6,7 @@
 #define WORK_01_LINE_TRANSFORMATION_MATRIX_H
 
 #include "edge_matrix.h"
-
-
-#define float_mat float
+#include "../settings.h"
 
 class EdgeMatrix;
 class TransformationMatrix {
@@ -24,13 +22,21 @@ public:
     void make_identity();
     void make_zero();
 
+    // for conversion (basically never used)
     static TransformationMatrix * from_edge(EdgeMatrix *);
+
+    // static constructors for making special transformation matrixes
     static TransformationMatrix * identity();
     static TransformationMatrix * zero();
+    static TransformationMatrix * rotationX(float_mat);
+    static TransformationMatrix * rotationY(float_mat);
+    static TransformationMatrix * rotationZ(float_mat);
+    static TransformationMatrix * rotationXYZ(float_mat, float_mat, float_mat);
+    static TransformationMatrix * translation(float_mat, float_mat, float_mat);
+    static TransformationMatrix * dilation(float_mat, float_mat, float_mat);
 
 private:
     float_mat * vals; // ROW MAJOR!!!
-
 };
 
 
