@@ -27,12 +27,8 @@ public:
 
     // transformations
     // TODO: move transformations into transformation_matrix and only keep apply_transformations here
-    void translate(float_mat, float_mat, float_mat);
-    void scale(float_mat, float_mat, float_mat);
-    void rotateX(float_mat);
-    void rotateY(float_mat);
-    void rotateZ(float_mat);
-    void rotateXYZ(float_mat, float_mat, float_mat);
+
+    // not really used either
     void add_point(float_mat, float_mat, float_mat, float_mat);
 
     // static methods

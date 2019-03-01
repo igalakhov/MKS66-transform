@@ -13,3 +13,4 @@
 #define DEFAULT_COLOR_R (char) 0
 #define DEFAULT_COLOR_G (char) 0
 #define DEFAULT_COLOR_B (char) 0
+

@@ -6,29 +6,13 @@
 
 #include <iostream>
 
-
+// returns the start of the matrix val array
+// the array is always of size 16
 float_mat * TransformationMatrix::get_start() {
     return vals;
 }
 
-void TransformationMatrix::make_identity() {
-    make_zero();
-
-    float_mat * cur = vals;
-
-    for(int i = 0; i < 4; i++){
-        *cur = 1;
-        cur += 5;
-    }
-}
-void TransformationMatrix::make_zero() {
-    float_mat * cur = vals;
-
-    for(int i = 0; i < 16; i++){
-       cur[i] = 0;
-    }
-}
-
+// prints the transformation matrix
 void TransformationMatrix::print_self() {
     std::cout << "[\n";
     for(int i = 0; i < 16; i++){
@@ -51,8 +35,6 @@ void TransformationMatrix::print_self() {
 // constructor
 TransformationMatrix::TransformationMatrix() {
     vals = (float_mat *) std::malloc(16 * sizeof(float_mat));
-
-    make_identity();
 }
 
 // constructor 2
@@ -79,17 +61,122 @@ TransformationMatrix * TransformationMatrix::from_edge(EdgeMatrix * m) {
     return ret;
 }
 
-// static constructor thingy 2
-TransformationMatrix * TransformationMatrix::identity(){
-    TransformationMatrix * ret = new TransformationMatrix();
-    ret->make_identity();
+// multiply self by transformation matrix
+// no optimization needed here since this is basically O(1) in terms of other things happening
+void TransformationMatrix::add_transformation(TransformationMatrix * m) {
+    float_mat * s = m->get_start();
+
+    auto new_vals = (float_mat *) std::malloc(16 * sizeof(float_mat));
+
+    // epic O(n^3)
+    for(int row = 0; row < 4; row++){
+        for(int col = 0; col < 4; col++){
+            new_vals[row * 4 + col] = (vals[row * 4 + 0] * s[0 + col]) +
+                                    (vals[row * 4 + 1] * s[4 + col]) +
+                                    (vals[row * 4 + 2] * s[8 + col]) +
+                                    (vals[row * 4 + 3] * s[12 + col]);
+        }
+    }
+
+    // swap
+    float_mat * temp = vals;
+    vals = new_vals;
+    std::free(temp);
+}
+
+// special matrix static constructors
+
+TransformationMatrix * TransformationMatrix::zero(){
+    auto ret = new TransformationMatrix();
+    float_mat * s = ret->get_start();
+    for(int i = 0; i < 16; i++, s++)
+        *s = 0;
     return ret;
 }
 
-// static constructor thingy 3
-TransformationMatrix * TransformationMatrix::zero(){
-    TransformationMatrix * ret = new TransformationMatrix();
-    ret->make_zero();
+TransformationMatrix * TransformationMatrix::identity(){
+    auto ret = TransformationMatrix::zero();
+    float_mat * s = ret->get_start();
+    for(int i = 0; i < 4; i++, s += 5)
+        *s = 1;
+    return ret;
+}
+
+TransformationMatrix * TransformationMatrix::rotationX(float_mat x){
+    x = x * (float_mat) M_PI/180;
+
+    auto ret = new TransformationMatrix(new float_mat[16]{
+            1, 0, 0, 0,
+            0, cos(x), -sin(x), 0,
+            0, sin(x), cos(x), 0,
+            0, 0, 0, 1
+    });
+
+    return ret;
+}
+
+TransformationMatrix * TransformationMatrix::rotationY(float_mat y){
+    y = y * (float_mat) M_PI/180;
+
+    auto ret = new TransformationMatrix(new float_mat[16]{
+            cos(y), 0, sin(y), 0,
+            0, 1, 0, 0,
+            -sin(y), 0, cos(y), 0,
+            0, 0, 0, 1
+    });
+
+    return ret;
+}
+
+TransformationMatrix * TransformationMatrix::rotationZ(float_mat z){
+    z = z * (float_mat) M_PI/180;
+
+    auto ret = new TransformationMatrix(new float_mat[16]{
+            cos(z), -sin(z), 0, 0,
+            sin(z), cos(z), 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+    });
+
+    return ret;
+}
+
+TransformationMatrix * TransformationMatrix::rotationXYZ(float_mat x, float_mat y, float_mat z){
+    auto ret = TransformationMatrix::identity();
+    auto rx = TransformationMatrix::rotationX(x);
+    auto ry = TransformationMatrix::rotationY(y);
+    auto rz = TransformationMatrix::rotationZ(z);
+
+    ret->add_transformation(rx);
+    ret->add_transformation(ry);
+    ret->add_transformation(rz);
+
+    delete rx;
+    delete ry;
+    delete rz;
+
+    return ret;
+}
+
+TransformationMatrix * TransformationMatrix::translation(float_mat a, float_mat b, float_mat c){
+    auto ret = new TransformationMatrix(new float_mat[16]{
+            1, 0, 0, a,
+            0, 1, 0, b,
+            0, 0, 1, c,
+            0, 0, 0, 1
+    });
+
+    return ret;
+}
+
+TransformationMatrix * TransformationMatrix::dilation(float_mat a, float_mat b, float_mat c){
+    auto ret = new TransformationMatrix(new float_mat[16]{
+            a, 0, 0, 0,
+            0, b, 0, 0,
+            0, 0, c, 0,
+            0, 0, 0, 1
+    });
+
     return ret;
 }
 

@@ -4,81 +4,9 @@
 
 #include "edge_matrix.h"
 
-// transformations
-void EdgeMatrix::rotateXYZ(float_mat x, float_mat y, float_mat z){
-    rotateX(x);
-    rotateY(y);
-    rotateZ(z);
-}
-
-void EdgeMatrix::rotateZ(float_mat z) {
-    auto * transform = new TransformationMatrix(new float_mat[16]{
-            cos(z), -sin(z), 0, 0,
-            sin(z), cos(z), 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-    });
-
-    apply_transformation(transform);
-
-    delete transform;
-}
-
-void EdgeMatrix::rotateY(float_mat y) {
-    auto * transform = new TransformationMatrix(new float_mat[16]{
-            cos(y), 0, sin(y), 0,
-            0, 1, 0, 0,
-            -sin(y), 0, cos(y), 0,
-            0, 0, 0, 1
-    });
-
-    apply_transformation(transform);
-
-    delete transform;
-}
-
-void EdgeMatrix::rotateX(float_mat x) {
-    auto * transform = new TransformationMatrix(new float_mat[16]{
-            1, 0, 0, 0,
-            0, cos(x), -sin(x), 0,
-            0, sin(x), cos(x), 0,
-            0, 0, 0, 1
-    });
-
-    apply_transformation(transform);
-
-    delete transform;
-}
-
-void EdgeMatrix::scale(float_mat x, float_mat y, float_mat z){
-    auto * transform = new TransformationMatrix(new float_mat[16]{
-            x, 0, 0, 0,
-            0, y, 0, 0,
-            0, 0, z, 0,
-            0, 0, 0, 1
-    });
-
-    apply_transformation(transform);
-
-    delete transform;
-}
-
-void EdgeMatrix::translate(float_mat x, float_mat y, float_mat z) {
-    auto * transform = new TransformationMatrix(new float_mat[16]{
-        1, 0, 0, x,
-        0, 1, 0, y,
-        0, 0, 1, z,
-        0, 0, 0, 1
-    });
-
-    apply_transformation(transform);
-
-    delete transform;
-}
-
 // multiplication
 void EdgeMatrix::apply_transformation(TransformationMatrix * m){
-    float_mat * new_matrix = (float_mat *) std::malloc(sizeof(float_mat) * 4 * num_points);
+    auto new_matrix = (float_mat *) std::malloc(sizeof(float_mat) * 4 * num_points);
 
     multiply_recursive(m->get_start(), 0, num_points, new_matrix, 0); // will spawn a max of 16 threads
 
@@ -142,6 +70,7 @@ void EdgeMatrix::print_self(){
 }
 
 // add an edge
+// TODO: make this work with triangles
 void EdgeMatrix::add_edge(float_mat x1, float_mat y1, float_mat z1,
                           float_mat x2, float_mat y2, float_mat z2){
     add_point(x1, y1, z1);
@@ -166,7 +95,7 @@ void EdgeMatrix::add_point(float_mat x, float_mat y, float_mat z) {
     num_points += 1;
 }
 
-// add a 4d point
+// add a point (you can specify the 3rd value)
 void EdgeMatrix::add_point(float_mat x, float_mat y, float_mat z, float_mat k) {
     vals = (float_mat *) std::realloc(vals, (size_t) sizeof(float_mat) * (4*num_points + 4));
 

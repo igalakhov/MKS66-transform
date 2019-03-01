@@ -19,10 +19,11 @@ public:
 
     float_mat * get_start();
 
-    void make_identity();
-    void make_zero();
+    // transformations
+    void add_transformation(TransformationMatrix *); // add a transformation
 
-    // for conversion (basically never used)
+
+    // for conversion (basically never used but it's there I guess)
     static TransformationMatrix * from_edge(EdgeMatrix *);
 
     // static constructors for making special transformation matrixes
