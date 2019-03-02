@@ -7,16 +7,26 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
+#include <sstream>
+#include <vector>
+
+#include "../settings.h"
+#include "../matrix/edge_matrix.h"
 
 class OBJFileParser {
 public:
     OBJFileParser(std::string);
     ~OBJFileParser();
 
+    EdgeMatrix * get_edge_matrix();
+
 
 private:
     void parse_file();
     std::string file_name;
+    std::vector<float_mat *> vertex_list;
+    std::vector<int *> face_list;
 
 };
 

@@ -21,7 +21,9 @@ void Display::set(int x, int y, struct color * to_set){
 
 }
 
-void Display::save(std::string file_name){
+// default saves as ppm
+// change extention to save as
+void Display::save(std::string file_name, std::string){
 
     // write values in display to file
     std::ofstream img_file;

@@ -12,7 +12,7 @@ struct color {
 
 class Display {
 public:
-    void save(std::string);  // save into file
+    void save(std::string, std::string);  // save into file
 
     Display(); // constructor
     ~Display(); // destructor
