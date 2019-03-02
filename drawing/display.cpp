@@ -7,6 +7,45 @@
 #include <fstream>
 #include <sstream>
 
+void Display::clear(){
+    unsigned char *cur = values;
+
+    // fill in values
+    for (int i = 0; i < NUM_PIXELS * 3; i++) {
+        switch (i % 3) {
+            case 0:
+                *cur = DEFAULT_COLOR_R;
+                break;
+            case 1:
+                *cur = DEFAULT_COLOR_G;
+                break;
+            case 2:
+                *cur = DEFAULT_COLOR_B;
+                break;
+            default: // never gets run anyways
+                break;
+        }
+
+        cur++;
+    }
+}
+
+void Display::display(){
+    FILE * f;
+
+    f = popen("/opt/local/bin/display", "w");
+
+    fprintf(f, "P3\n%d %d\n%d\n", IMAGE_WIDTH, IMAGE_HEIGHT, MAX_COLOR);
+
+    unsigned char * cur = values;
+
+    for(int i = 0; i < NUM_PIXELS*3; i++, cur++)
+        fprintf(f, "%d ", (int) * cur);
+
+    pclose(f);
+
+}
+
 void Display::set(int x, int y, struct color * to_set){
     assert((y*IMAGE_WIDTH + x) < NUM_PIXELS);
 

@@ -11,8 +11,7 @@
 class EdgeMatrix;
 class TransformationMatrix {
 public:
-    TransformationMatrix(); // constructor
-    TransformationMatrix(float_mat *); // constructor 2: electric boogaloo
+    TransformationMatrix(float_mat *); // constructor
     ~TransformationMatrix(); // destructor
 
     void print_self(); // print self
@@ -22,8 +21,10 @@ public:
     // transformations
     void add_transformation(TransformationMatrix *); // add a transformation
 
+    // copying
+    void copy_vals(TransformationMatrix *);
 
-    // for conversion (basically never used but it's there I guess)
+    // for conversion (basically never used but it's here I guess)
     static TransformationMatrix * from_edge(EdgeMatrix *);
 
     // static constructors for making special transformation matrixes
@@ -35,6 +36,7 @@ public:
     static TransformationMatrix * rotationXYZ(float_mat, float_mat, float_mat);
     static TransformationMatrix * translation(float_mat, float_mat, float_mat);
     static TransformationMatrix * dilation(float_mat, float_mat, float_mat);
+
 
 private:
     float_mat * vals; // ROW MAJOR!!!

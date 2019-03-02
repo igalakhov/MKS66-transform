@@ -11,28 +11,18 @@
 #include "matrix/edge_matrix.h"
 #include "matrix/transformation_matrix.h"
 #include "parsing/obj_parser.h"
+#include "parsing/mdl_parser.h"
 
 int main(){
+
     // initialize the parser and parse commands
     // the return type of the parse is a vector of vectors because that's the easiest to iterate/parse
     // we also know that if the parser returns something, it's 100% with correct syntax and format
 
-    auto parser = new OBJFileParser("../resources/teapot/teapot.obj");
+    std::cout << "Note: this graphics engine uses a different coordinate system with (0, 0) on the top right" << std::endl;
+    std::cout << "If a script outputs something else it's because of that and not because my code is bad or anything" << std::endl;
 
-    auto edge_matrix = parser->get_edge_matrix();
+    auto p = new MDLParser("script.mdl");
 
-    auto t = TransformationMatrix::identity();
-    t->add_transformation(TransformationMatrix::translation(250, 200, 0));
-
-    t->add_transformation(TransformationMatrix::dilation(50, 50, 1));
-
-    t->print_self();
-
-    edge_matrix->apply_transformation(t);
-
-    auto drawer = new Drawer();
-
-    drawer->draw_edges(edge_matrix);
-
-    drawer->save("../out.ppm", ".ppm");
+    p->run_file(new EdgeMatrix(), TransformationMatrix::identity(), new Drawer());
 }

@@ -13,11 +13,13 @@ struct color {
 class Display {
 public:
     void save(std::string, std::string);  // save into file
+    void display(); // display self (requires imagemagik with x11)
 
     Display(); // constructor
     ~Display(); // destructor
 
     void set(int, int, struct color *); // set a pixel to a value
+    void clear();
 
 
 protected:

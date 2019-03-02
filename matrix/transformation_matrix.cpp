@@ -12,6 +12,13 @@ float_mat * TransformationMatrix::get_start() {
     return vals;
 }
 
+void TransformationMatrix::copy_vals(TransformationMatrix * t){
+    float_mat * s = t->get_start();
+
+    for(int i = 0; i < 16; i++)
+        vals[i] = s[i];
+}
+
 // prints the transformation matrix
 void TransformationMatrix::print_self() {
     std::cout << "[\n";
@@ -30,11 +37,6 @@ void TransformationMatrix::print_self() {
             std::cout << "\n";
     }
     std::cout << "]\n";
-}
-
-// constructor
-TransformationMatrix::TransformationMatrix() {
-    vals = (float_mat *) std::malloc(16 * sizeof(float_mat));
 }
 
 // constructor 2
@@ -87,10 +89,12 @@ void TransformationMatrix::add_transformation(TransformationMatrix * m) {
 // special matrix static constructors
 
 TransformationMatrix * TransformationMatrix::zero(){
-    auto ret = new TransformationMatrix();
-    float_mat * s = ret->get_start();
-    for(int i = 0; i < 16; i++, s++)
-        *s = 0;
+    auto ret = new TransformationMatrix(new float_mat[16]{
+            0, 0, 0, 0,
+            0, 0, 0, 0,
+            0, 0, 0, 0,
+            0, 0, 0, 0
+    });
     return ret;
 }
 
