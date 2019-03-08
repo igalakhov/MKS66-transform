@@ -117,8 +117,9 @@ void Drawer::draw_line(int x1, int y1, int x2, int y2) {
 }
 
 void Drawer::set(int x, int y){
-    if(x < IMAGE_WIDTH and y < IMAGE_HEIGHT) // only set if value is valid
+    if(x < IMAGE_WIDTH and x > 0 and y < IMAGE_HEIGHT and y > 0){ // only set if value is valid
         Display::set(x, y, &cur_color);
+    }
 }
 
 void Drawer::change_color(unsigned char r, unsigned char g, unsigned char b){

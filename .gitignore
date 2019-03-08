@@ -8,6 +8,7 @@ CMakeLists.txt
 *.ppm
 *.png
 resources/
+renders/
 
 # Prerequisites
 *.d
