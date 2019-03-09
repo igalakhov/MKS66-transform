@@ -63,7 +63,6 @@ void Display::set(int x, int y, struct color * to_set){
 // default saves as ppm
 // change extention to save as
 void Display::save(std::string file_name, std::string){
-
     // write values in display to file
     std::ofstream img_file;
     img_file.open(file_name, std::ofstream::trunc);
@@ -72,13 +71,13 @@ void Display::save(std::string file_name, std::string){
 
     unsigned char *cur = values;
 
-    // fill in values
-    for (int i = 0; i < NUM_PIXELS * 3; i++, cur++) {
-        img_file << std::to_string((int) *cur) << " ";
+    for(int h = NUM_PIXELS * 3; h >= 0; h -= IMAGE_WIDTH * 3){
+        for(int i = 0; i < IMAGE_WIDTH * 3; i++){
+            img_file << std::to_string((int) values[h + i]) << " ";
+        }
     }
 
     img_file.close();
-
 }
 
 // constructor
