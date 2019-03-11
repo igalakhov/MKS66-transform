@@ -14,7 +14,9 @@
 #include "parsing/mdl_parser.h"
 
 int main(){
+    // bye
 
+    if(0){
 
     for(int i = 1; i <= 206; i++){
         std::string f_name = "../resources/default_dance/dance_000";
@@ -75,14 +77,15 @@ int main(){
 
     d->display();
 
-    return 0;
+    }
+    // return 0;
 
     // initialize the parser and parse commands
     // the return type of the parse is a vector of vectors because that's the easiest to iterate/parse
     // we also know that if the parser returns something, it's 100% with correct syntax and format
 
-    std::cout << "Note: this graphics engine uses a different coordinate system with (0, 0) on the top right" << std::endl;
-    std::cout << "If a script outputs something else it's because of that and not because my code is bad or anything" << std::endl;
+    //std::cout << "Note: this graphics engine uses a different coordinate system with (0, 0) on the top right" << std::endl;
+    //std::cout << "If a script outputs something else it's because of that and not because my code is bad or anything" << std::endl;
 
     auto p = new MDLParser("script.mdl");
 

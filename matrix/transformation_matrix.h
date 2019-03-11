@@ -8,6 +8,8 @@
 #include "edge_matrix.h"
 #include "../settings.h"
 
+#include <cassert>
+
 class EdgeMatrix;
 class TransformationMatrix {
 public:

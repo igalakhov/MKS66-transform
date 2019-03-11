@@ -4,6 +4,8 @@
 #ifndef WORK_01_LINE_DISPLAY_H
 #define WORK_01_LINE_DISPLAY_H
 
+#include <cassert>
+
 struct color {
     unsigned char r;
     unsigned char g;
