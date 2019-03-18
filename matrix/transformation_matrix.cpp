@@ -73,10 +73,10 @@ void TransformationMatrix::add_transformation(TransformationMatrix * m) {
     // epic O(n^3)
     for(int row = 0; row < 4; row++){
         for(int col = 0; col < 4; col++){
-            new_vals[row * 4 + col] = (vals[row * 4 + 0] * s[0 + col]) +
-                                    (vals[row * 4 + 1] * s[4 + col]) +
-                                    (vals[row * 4 + 2] * s[8 + col]) +
-                                    (vals[row * 4 + 3] * s[12 + col]);
+            new_vals[row * 4 + col] = (s[row * 4 + 0] * vals[0 + col]) +
+                                    (s[row * 4 + 1] * vals[4 + col]) +
+                                    (s[row * 4 + 2] * vals[8 + col]) +
+                                    (s[row * 4 + 3] * vals[12 + col]);
         }
     }
 
