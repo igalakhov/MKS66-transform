@@ -39,11 +39,16 @@ void Display::display(){
 
     unsigned char * cur = values;
 
+    for(int h = NUM_PIXELS * 3; h >= 0; h -= IMAGE_WIDTH * 3){
+        for(int i = 0; i < IMAGE_WIDTH * 3; i++){
+            fprintf(f, "%d ", (int) values[h + i]);
+        }
+    }
+
     for(int i = 0; i < NUM_PIXELS*3; i++, cur++)
         fprintf(f, "%d ", (int) * cur);
 
     pclose(f);
-
 }
 
 void Display::set(int x, int y, struct color * to_set){
